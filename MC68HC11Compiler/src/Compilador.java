@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 /**
@@ -83,11 +85,74 @@ public class Compilador extends javax.swing.JFrame {
         
     }
     private void clearFields(){
-        
+        Functions.clearDataInTable(tblTokens);
+        jtaOutputConsole.setText("");
+        tokens.clear();
+        errores.clear();
+        identProd.clear();
+        identificadores.clear();
+        codeHasBeenCompiled = false;
     }
     
     private void compile(){
+        clearFields();
+        lexicalAnalysis();
+        fillTableTokens();
+        syntaticAnalysis();
+        semanticAnalysis();
+        printConsole();
+        codeHasBeenCompiled = true;
+    }
+    
+    private void lexicalAnalysis(){
+        Lexer lexer;
+        try {
+            
+            File codigo = new File("code.encrypto");
+            FileOutputStream output = new FileOutputStream(codigo);
+            byte[] bytesText = jtpCode.getText().getBytes();
+            output.write(bytesText);
+            BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(codigo),"UTF-8"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(IOException ex){
+            Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+    }
+    
+    private void fillTableTokens(){
+        tokens.forEach(token ->{
+            Object[] data = new Object[]{token.getLexicalComp(), token.getLexeme(), "["+token.getLine()+","+token.getColumn()+"]"};
+            Functions.addRowDataInTable(tblTokens, data);
+        
+        });
+    }
+    
+    private void syntaticAnalysis(){
+        Grammar gramatica = new Grammar(tokens,errores);
+        gramatica.show();
+    }
+    
+    private void semanticAnalysis(){
+        
+    }
+    
+    private void printConsole(){
+        int sizeErrors = errores.size();
+        if(sizeErrors > 0){
+            Functions.sortErrorsByLineAndColumn(errores);
+            String strErrors = "\n";
+            for(ErrorLSSL error: errores){
+                String strError = String.valueOf(error);
+                strErrors += strError + "\n";
+            }
+            jtaOutputConsole.setText("Compilacion terminada .... \n"+ strErrors + "\nLa compilación termino con errores.");
+        }
+        else{
+            jtaOutputConsole.setText("Compilacion terminada");
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -107,9 +172,9 @@ public class Compilador extends javax.swing.JFrame {
         btnCompilar = new javax.swing.JButton();
         btnEjecutar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblTokens = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jtaOutputConsole = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -159,7 +224,7 @@ public class Compilador extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblTokens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -192,11 +257,11 @@ public class Compilador extends javax.swing.JFrame {
                 "Componente lexico", "Lexema", "[linea,columna]"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(tblTokens);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        jtaOutputConsole.setColumns(20);
+        jtaOutputConsole.setRows(5);
+        jScrollPane2.setViewportView(jtaOutputConsole);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -328,9 +393,12 @@ public class Compilador extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(new FlatIntelliJLaf());
                 new Compilador().setVisible(true);
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
@@ -345,8 +413,8 @@ public class Compilador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jtaOutputConsole;
     private javax.swing.JTextArea jtpCode;
+    private javax.swing.JTable tblTokens;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,3 +6,11 @@ end
 ORG
 INC $4c, X
 INC $a321
+DEC $4HC1
+MUL
+mul
+CLR $5C, Y
+ADDA #$4C
+BRCLR $4C,Y,#50
+LDAA $4C
+staa $23,X

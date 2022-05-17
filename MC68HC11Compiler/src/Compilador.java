@@ -50,7 +50,7 @@ public class Compilador extends javax.swing.JFrame {
         title = "Compilador para MC68HC11";
         setLocationRelativeTo(null); //para centrar ventana
         setTitle(title);
-        Directorio = new Directory(this, jtpCode, title, ".asd");
+        Directorio = new Directory(this, jtpCode, title, ".asc");
         addWindowListener(new WindowAdapter(){
             @Override
             //para preguntar si se quiere guardar el codigo
@@ -60,7 +60,7 @@ public class Compilador extends javax.swing.JFrame {
             }
         });
         Functions.setLineNumberOnJTextComponent(jtpCode); //para que se numeren las lineas del codigo
-        timerKeyReleased = new Timer(300,((e) -> {
+        timerKeyReleased = new Timer(100,((e) -> {
             timerKeyReleased.stop();
             colorAnalysis(); // se colorean el texto cada 300 milisegundos
         }));
@@ -82,7 +82,30 @@ public class Compilador extends javax.swing.JFrame {
     }
     
     private void colorAnalysis(){
-        
+        textsColor.clear();
+        LexerColor lexer;
+        try {
+            
+            File codigo = new File("color.encrypto");
+            FileOutputStream output = new FileOutputStream(codigo);
+            byte[] bytesText = jtpCode.getText().getBytes();
+            output.write(bytesText);
+            BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(codigo),"UTF-8"));
+            lexer = new LexerColor(entrada);
+            while(true){
+                TextColor textColor = lexer.yylex();
+                if(textColor == null){
+                    break;
+                }
+                textsColor.add(textColor);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(IOException ex){
+            Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Functions.colorTextPane(textsColor,jtpCode,new Color(40,40,40));
     }
     private void clearFields(){
         Functions.clearDataInTable(tblTokens);
@@ -113,6 +136,14 @@ public class Compilador extends javax.swing.JFrame {
             byte[] bytesText = jtpCode.getText().getBytes();
             output.write(bytesText);
             BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(codigo),"UTF-8"));
+            lexer = new Lexer(entrada);
+            while(true){
+                Token token = lexer.yylex();
+                if(token == null){
+                    break;
+                }
+                tokens.add(token);
+            }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -165,8 +196,6 @@ public class Compilador extends javax.swing.JFrame {
 
         btnNuevo = new javax.swing.JButton();
         btnAbrir = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtpCode = new javax.swing.JTextArea();
         btnGuardar = new javax.swing.JButton();
         btnGuardarC = new javax.swing.JButton();
         btnCompilar = new javax.swing.JButton();
@@ -175,6 +204,8 @@ public class Compilador extends javax.swing.JFrame {
         tblTokens = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtaOutputConsole = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jtpCode = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -191,10 +222,6 @@ public class Compilador extends javax.swing.JFrame {
                 btnAbrirActionPerformed(evt);
             }
         });
-
-        jtpCode.setColumns(20);
-        jtpCode.setRows(5);
-        jScrollPane1.setViewportView(jtpCode);
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -263,6 +290,8 @@ public class Compilador extends javax.swing.JFrame {
         jtaOutputConsole.setRows(5);
         jScrollPane2.setViewportView(jtaOutputConsole);
 
+        jScrollPane4.setViewportView(jtpCode);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -284,11 +313,11 @@ public class Compilador extends javax.swing.JFrame {
                         .addComponent(btnEjecutar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,10 +332,10 @@ public class Compilador extends javax.swing.JFrame {
                     .addComponent(btnEjecutar))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -410,11 +439,11 @@ public class Compilador extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnGuardarC;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jtaOutputConsole;
-    private javax.swing.JTextArea jtpCode;
+    private javax.swing.JTextPane jtpCode;
     private javax.swing.JTable tblTokens;
     // End of variables declaration//GEN-END:variables
 }

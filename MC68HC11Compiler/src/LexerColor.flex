@@ -14,10 +14,10 @@ import java.awt.Color;
 TerminadorDeLinea = \r|\n|\r\n
 EntradaDeCaracter = [^\r\n]
 EspacioEnBlanco = {TerminadorDeLinea} | [ \t\f]
-ComentarioTradicional = "/*" [^*] ~"*/" | "/*" "*"+ "/"
-FinDeLineaComentario = "//" {EntradaDeCaracter}* {TerminadorDeLinea}?
+ComentarioTradicional = "*" [^*] ~"*" 
+FinDeLineaComentario = "*" {EntradaDeCaracter}* {TerminadorDeLinea}?
 ContenidoComentario = ( [^*] | \*+ [^/*] )*
-ComentarioDeDocumentacion = "/**" {ContenidoComentario} "*"+ "/"
+ComentarioDeDocumentacion = "*" {ContenidoComentario} 
 
 /* Comentario */
 Comentario = {ComentarioTradicional} | {FinDeLineaComentario} | {ComentarioDeDocumentacion}
@@ -35,4 +35,7 @@ Numero = 0 | [1-9][0-9]*
 {Comentario} { return textColor(yychar, yylength(), new Color(146, 146, 146)); } //comentarios en gris
 {EspacioEnBlanco} { /*Ignorar*/ }
 
+
+/* Identificador */
+\${Identificador}
 . { /* Ignorar */ }

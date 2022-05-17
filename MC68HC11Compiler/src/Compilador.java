@@ -60,7 +60,7 @@ public class Compilador extends javax.swing.JFrame {
             }
         });
         Functions.setLineNumberOnJTextComponent(jtpCode); //para que se numeren las lineas del codigo
-        timerKeyReleased = new Timer(100,((e) -> {
+        timerKeyReleased = new Timer(300,((e) -> {
             timerKeyReleased.stop();
             colorAnalysis(); // se colorean el texto cada 300 milisegundos
         }));
@@ -75,7 +75,7 @@ public class Compilador extends javax.swing.JFrame {
         identificadores = new HashMap<>();
         //autocompletar algunas palabras
         //funciona con CTRL+SPACE
-        Functions.setAutocompleterJTextComponent(new String[]{"OMG","HOLA","NATI","hola","magico","nati","comp"}, jtpCode, ()->{
+        Functions.setAutocompleterJTextComponent(new String[]{"END","FCB","ORG","org","end","fcb","EQU"}, jtpCode, ()->{
             timerKeyReleased.restart();
         });
         

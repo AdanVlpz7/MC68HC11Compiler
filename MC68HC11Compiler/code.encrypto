@@ -12,5 +12,6 @@ mul
 CLR $5C, Y
 ADDA #$4C
 BRCLR $4C,Y,#50
+CLR $23,X
 LDAA $4C
 staa $23,X

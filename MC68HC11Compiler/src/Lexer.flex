@@ -62,27 +62,54 @@ Numero = 0 | [1-9][0-9]*
 "ABA" | "aba" {return token(yytext(),"Inst_ABA",yyline,yycolumn);}      /* $1B */
 "ABY" | "aby" {return token(yytext(),"Inst_ABY",yyline,yycolumn);}      /* $18 3A */
 "ABX" | "abx" {return token(yytext(),"Inst_ABX",yyline,yycolumn);}      /* $3A */
+("SUBA" | "suba"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_SUBA_INMEDIATO",yyline,yycolumn);}         /* $80 */
 ("SBCA" | "sbca"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_SBCA_INMEDIATO",yyline,yycolumn);}      /* $82 */
 ("SUBD" | "subd"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_SUBD_INMEDIATO",yyline,yycolumn);}         /* $83 */
 ("ADCA" | "adca"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_ADCA_INMEDIATO",yyline,yycolumn);}      /* $89 */
 ("ADDA" | "adda"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_ADDA_INMEDIATO",yyline,yycolumn);}      /* $8B */
 ("ADDD" | "addd"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_ADDD_INMEDIATO",yyline,yycolumn);}         /* $C3 */
+
+("SUBA" | "suba")\${DirSimple} | ("SUBA" | "suba"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_SUBA_Dir",yyline,yycolumn);} /* $90 */
 ("SBCA" | "sbca")\${DirSimple} | ("SBCA" | "sbca"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_SBCA_Dir",yyline,yycolumn);} /* $92 */
 ("SUBD" | "subd")\${DirSimple} | ("SUBD" | "subd"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_SUBD_Dir",yyline,yycolumn);} /* $93 */
 ("ADCA" | "adca")\${DirSimple} | ("ADCA" | "adca"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ADCA_Dir",yyline,yycolumn);} /* $99 */
 ("ADDA" | "adda")\${DirSimple} | ("ADDA" | "adda"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ADDA_Dir",yyline,yycolumn);} /* $9B */
 ("ADDD" | "addd")\${DirSimple} | ("ADDD" | "addd"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ADDD_Dir",yyline,yycolumn);} /* $D3 */
+
+("SUBA" | "suba"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("SUBA" | "suba"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_SUBA_Index",yyline,yycolumn);} /* $A0 */
 ("SBCA" | "sbca"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("SBCA" | "sbca"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_SBCA_Index",yyline,yycolumn);} /* $A2 */
 ("SUBD" | "subd"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("SUBD" | "subd"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_SUBD_Index",yyline,yycolumn);} /* $A3 */
 ("ADCA" | "adca"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ADCA" | "adca"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ADCA_Index",yyline,yycolumn);} /* $A9 */
 ("ADDA" | "adda"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ADDA" | "adda"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ADDA_Index",yyline,yycolumn);} /* $AB */
 ("ADDD" | "addd"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ADDD" | "addd"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ADDD_Index",yyline,yycolumn);} /* $E3 */
+
+("SUBA" | "suba")\${DirExt} | ("SUBA" | "suba"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_SUBA_Ext",yyline,yycolumn);} /* $B0 */
 ("SBCA" | "sbca")\${DirExt} | ("SBCA" | "sbca"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_SBCA_Ext",yyline,yycolumn);} /* $B2 */
 ("SUBD" | "subd")\${DirExt} | ("SUBD" | "subd"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_SUBD_Ext",yyline,yycolumn);} /* $B3 */
 ("ADCA" | "adca")\${DirExt} | ("ADCA" | "adca"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ADCA_Ext",yyline,yycolumn);} /* $B9 */
 ("ADDA" | "adda")\${DirExt} | ("ADDA" | "adda"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ADDA_Ext",yyline,yycolumn);} /* $BB */
 ("ADDD" | "addd")\${DirExt} | ("ADDD" | "addd"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ADDD_Ext",yyline,yycolumn);} /* $F3 */
 
+/* B */
+("SUBB" | "subb"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_SUBB_INMEDIATO",yyline,yycolumn);}         /* $C0 */
+("SBCB" | "sbcb"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_SBCB_INMEDIATO",yyline,yycolumn);}      /* $C2 */
+("ADCB" | "adcb"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_ADCB_INMEDIATO",yyline,yycolumn);}      /* $C9 */
+("ADDB" | "addb"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_ADDB_INMEDIATO",yyline,yycolumn);}      /* $CB */
+
+("SUBB" | "subb")\${DirSimple} | ("SUBB" | "subb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_SUBD_Dir",yyline,yycolumn);} /* $D0 */
+("SBCB" | "sbcb")\${DirSimple} | ("SBCB" | "sbcb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_SBCD_Dir",yyline,yycolumn);} /* $D2 */
+("ADCB" | "adcb")\${DirSimple} | ("ADCB" | "adcb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ADCD_Dir",yyline,yycolumn);} /* $D9 */
+("ADDB" | "addb")\${DirSimple} | ("ADDB" | "addb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ADDD_Dir",yyline,yycolumn);} /* $DB */
+
+("SUBB" | "subb"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("SUBB" | "subb"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_SUBB_Index",yyline,yycolumn);} /* $E0 */
+("SBCB" | "sbcb"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("SBCB" | "sbcb"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_SBCB_Index",yyline,yycolumn);} /* $E2 */
+("ADCB" | "adcb"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ADCB" | "adcb"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ADCB_Index",yyline,yycolumn);} /* $E9 */
+("ADDB" | "addb"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ADDB" | "addb"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ADDB_Index",yyline,yycolumn);} /* $EB */
+
+("SUBB" | "subb")\${DirExt} | ("SUBB" | "subb"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_SUBB_Ext",yyline,yycolumn);} /* $F0 */
+("SBCB" | "sbcb")\${DirExt} | ("SBCB" | "sbcb"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_SBCB_Ext",yyline,yycolumn);} /* $F2 */
+("ADCB" | "adcb")\${DirExt} | ("ADCB" | "adcb"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ADCB_Ext",yyline,yycolumn);} /* $F9 */
+("ADDB" | "addb")\${DirExt} | ("ADDB" | "addb"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ADDB_Ext",yyline,yycolumn);} /* $FB */
 
 /*Instrucciones aritmeticas de incremento y decremento*/
 "INX" | "inx" {return token(yytext(),"Inst_INX",yyline,yycolumn);}      /* $08 */
@@ -123,27 +150,47 @@ Numero = 0 | [1-9][0-9]*
 
 /*Instrucciones de comparacion */
 ("CBA" | "cba") {return token(yytext(),"Inst_CBA",yyline,yycolumn);}      /* $11 */
-("CPY" | "cpy"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_CPY_INMEDIATO",yyline,yycolumn);}         /* $18 8C */
-("CPY" | "cpy")\${DirSimple} | ("CPY" | "cpy"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_CPY_Dir",yyline,yycolumn);} /* $18 9C */
-("CPY" | "cpy"){EspacioEnBlanco}\${DirSimple}\,{Letra} | ("CPY" | "cpy"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_CPY_Index",yyline,yycolumn);} /* $18 AC */
-("CPY" | "cpy")\${DirExt} | ("CPY" | "cpy"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_CPY_Ext",yyline,yycolumn);} /* $18 BC */
-("CPD" | "cpd"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_CPD_INMEDIATO",yyline,yycolumn);}         /* $1A 83 */
-("CPD" | "cpd")\${DirSimple} | ("CPD" | "cpd"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_CPD_Dir",yyline,yycolumn);} /* $1A 93 */
-("CPD" | "cpd"){EspacioEnBlanco}\${DirSimple}\,{Letra} | ("CPD" | "cpd"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_CPD_Index",yyline,yycolumn);} /* $1A A3 */
-("CPD" | "cpd")\${DirExt} | ("CPD" | "cpd"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_CPD_Ext",yyline,yycolumn);} /* $1A B3 */
 ("TSTA" | "tsta") {return token(yytext(),"Inst_TSTA",yyline,yycolumn);}      /* $4D */
+
 ("CMPA" | "cmpa"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_CMPA_INMEDIATO",yyline,yycolumn);}      /* $81 */
 ("BITA" | "bita"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_BITA_INMEDIATO",yyline,yycolumn);}      /* $85 */
 ("CPX" | "cpx"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_CPX_INMEDIATO",yyline,yycolumn);}         /* $8C */
+("CPY" | "cpy"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_CPY_INMEDIATO",yyline,yycolumn);}         /* $18 8C */
+("CPD" | "cpd"){EspacioEnBlanco}\#\${DirExt} {return token(yytext(),"Inst_CPD_INMEDIATO",yyline,yycolumn);}         /* $1A 83 */
+
 ("CMPA" | "cmpa")\${DirSimple} | ("CMPA" | "cmpa"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_CMPA_Dir",yyline,yycolumn);} /* $91 */
+("BITA" | "bita")\${DirSimple} | ("BITA" | "bita"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_BITA_Dir",yyline,yycolumn);} /* $95 */
 ("CPX" | "cpx")\${DirSimple} | ("CPX" | "cpx"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_CPX_Dir",yyline,yycolumn);} /* $9C */
+("CPY" | "cpy")\${DirSimple} | ("CPY" | "cpy"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_CPY_Dir",yyline,yycolumn);} /* $18 9C */
+("CPD" | "cpd")\${DirSimple} | ("CPD" | "cpd"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_CPD_Dir",yyline,yycolumn);} /* $1A 93 */
+
 ("CMPA" | "cmpa"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("CMPA" | "cmpa"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_CMPA_Index",yyline,yycolumn);} /* $A2 */
+("BITA" | "bita"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("BITA" | "bita"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_BITA_Index",yyline,yycolumn);} /* $A5 */
 ("CPX" | "cpx"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("CPX" | "cpx"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_CPX_Index",yyline,yycolumn);} /* $AC */
+("CPY" | "cpy") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("CTY" | "cty"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_CPY_Index",yyline,yycolumn);} /* $1A AC */ /*18 AC*/
+("CPD" | "cpd"){EspacioEnBlanco}\${DirSimple}\,{Letra} | ("CPD" | "cpd"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_CPD_Index",yyline,yycolumn);} /* $1A A3 */
+
 ("CMPA" | "cmpa")\${DirExt} | ("CMPA" | "cmpa"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_CMPA_Ext",yyline,yycolumn);} /* $B1 */
+("BITA" | "bita")\${DirExt} | ("BITA" | "bita"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_BITA_Ext",yyline,yycolumn);} /* $B5 */
 ("CPX" | "cpx")\${DirExt} | ("CPX" | "cpx"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_CPX_Ext",yyline,yycolumn);} /* $BC */
+("CPY" | "cpy")\${DirExt} | ("CPY" | "cpy"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_CPY_Ext",yyline,yycolumn);} /* $18 BC */
+("CPD" | "cpd")\${DirExt} | ("CPD" | "cpd"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_CPD_Ext",yyline,yycolumn);} /* $1A B3 */
 
-
+/*B*/
 ("TSTB" | "tstb") {return token(yytext(),"Inst_TSTB",yyline,yycolumn);}      /* $5D */
+
+("CMPB" | "cmpb"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_CMPB_INMEDIATO",yyline,yycolumn);}      /* $C1 */
+("BITB" | "bitb"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_BITB_INMEDIATO",yyline,yycolumn);}      /* $C5 */
+
+("CMPB" | "cmpb")\${DirSimple} | ("CMPB" | "cmpb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_CMPB_Dir",yyline,yycolumn);} /* $D1 */
+("BITB" | "bitb")\${DirSimple} | ("BITB" | "bitb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_BITB_Dir",yyline,yycolumn);} /* $D5 */
+
+("CMPB" | "cmpb"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("CMPB" | "cmpb"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_CMPB_Index",yyline,yycolumn);} /* $E1 */
+("BITB" | "bitb"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("BITB" | "bitb"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_BITB_Index",yyline,yycolumn);} /* $E5 */
+
+("CMPB" | "cmpb")\${DirExt} | ("CMPB" | "cmpb"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_CMPB_Ext",yyline,yycolumn);} /* $F1 */
+("BITB" | "bitb")\${DirExt} | ("BITB" | "bitb"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_BITB_Ext",yyline,yycolumn);} /* $F5 */
+
 
 /*Instrucciones de salto y bifurcacion*/
 ("BRSET" | "brset")\${DirSimple}\,\#{DirSimple} | ("BRSET" | "brset"){EspacioEnBlanco}\${DirSimple}\,\#{DirSimple} {return token(yytext(),"Inst_BRSET_Dir",yyline,yycolumn);} /* $12 */
@@ -158,18 +205,39 @@ Numero = 0 | [1-9][0-9]*
 ("BCLR" | "bclr")\${DirSimple}\,{LetraIndex}\,\#{DirSimple} | ("BCLR" | "bclr"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex}\,\#{DirSimple} {return token(yytext(),"Inst_BCLR_Index",yyline,yycolumn);} /* $1F */
 
 /*Instrucciones logicas*/
+/*A*/
 ("ORAA" | "oraa"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_ORAA_INMEDIATO",yyline,yycolumn);}      /* $8A */
 ("ANDA" | "anda"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_ANDA_INMEDIATO",yyline,yycolumn);}      /* $84 */
 ("EORA" | "eora"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_EORA_INMEDIATO",yyline,yycolumn);}      /* $88 */
+
 ("ORAA" | "oraa")\${DirSimple} | ("ORAA" | "oraa"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ORAA_Dir",yyline,yycolumn);} /* $9A */
 ("ANDA" | "anda")\${DirSimple} | ("ANDA" | "anda"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ANDA_Dir",yyline,yycolumn);} /* $94 */
-("ANDA" | "anda")\${DirSimple} | ("ANDA" | "anda"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_EORA_Dir",yyline,yycolumn);} /* $98 */
+("EORA" | "eora")\${DirSimple} | ("EORA" | "eora"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_EORA_Dir",yyline,yycolumn);} /* $98 */
+
 ("ORAA" | "oraa")\${DirExt} | ("ORAA" | "oraa"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ORAA_Ext",yyline,yycolumn);} /* $BA */
 ("ANDA" | "anda")\${DirExt} | ("ANDA" | "anda"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ANDA_Ext",yyline,yycolumn);} /* $B4 */
 ("EORA" | "eora")\${DirExt} | ("EORA" | "eora"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_EORA_Ext",yyline,yycolumn);} /* $B8 */
+
 ("ORAA" | "oraa"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ORAA" | "oraa"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ORAA_Index",yyline,yycolumn);} /* $AA */
 ("ANDA" | "anda"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ANDA" | "anda"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ANDA_Index",yyline,yycolumn);} /* $A4 */
 ("EORA" | "eora"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("EORA" | "eora"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_EORA_Index",yyline,yycolumn);} /* $A8 */
+
+/* B */
+("ANDB" | "andb"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_ANDB_INMEDIATO",yyline,yycolumn);}      /* $C4 */
+("EORB" | "eorb"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_EORB_INMEDIATO",yyline,yycolumn);}      /* $C8 */
+("ORAB" | "orab"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_ORAB_INMEDIATO",yyline,yycolumn);}      /* $CA */
+
+("ANDB" | "andb")\${DirSimple} | ("ANDB" | "andb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ANDB_Dir",yyline,yycolumn);} /* $D4 */
+("EORB" | "eorb")\${DirSimple} | ("EORB" | "eorb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_EORB_Dir",yyline,yycolumn);} /* $D8 */
+("ORAB" | "orab")\${DirSimple} | ("ORAB" | "orab"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_ORAB_Dir",yyline,yycolumn);} /* $DA */
+
+("ORAB" | "orab"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ORAB" | "orab"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ORAB_Index",yyline,yycolumn);} /* $EA */ /*18 EA*/
+("ANDB" | "andb"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ANDB" | "andb"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ANDB_Index",yyline,yycolumn);} /* $E4 */ /*18 E4*/
+("EORB" | "eorb"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("EORB" | "eorb"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_EORB_Index",yyline,yycolumn);} /* $E8 */ /*18 E8*/
+
+("EORB" | "eorb")\${DirSimple} | ("EORB" | "eorb"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_EORB_Dir",yyline,yycolumn);} /* $F8 */
+("ORAB" | "orab")\${DirExt} | ("ORAB" | "orab"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ORAB_Ext",yyline,yycolumn);} /* $FA */
+("ANDB" | "andb")\${DirExt} | ("ANDB" | "andb"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ANDB_Ext",yyline,yycolumn);} /* $F4 */
 
 /*Instrucciones de rotacion y desplazamiento*/
 
@@ -180,11 +248,18 @@ Numero = 0 | [1-9][0-9]*
 ("ASRA" | "asra") {return token(yytext(),"Inst_ASRA",yyline,yycolumn);}      /* $47 */
 ("ASLA" | "asla")| ("LSLA" | "lsla") {return token(yytext(),"Inst_ASLA",yyline,yycolumn);}      /* $48 */
 ("ROLA" | "rola") {return token(yytext(),"Inst_ROLA",yyline,yycolumn);}      /* $49 */
-("LSR" | "lsr") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("LSR" | "lsr"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_LSR_Index",yyline,yycolumn);} /* $64 */
+("LSR" | "lsr") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("LSR" | "lsr"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_LSR_Index",yyline,yycolumn);} /* $64 */ /*18 64*/
 ("ASR" | "asr") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ASR" | "asr"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ASR_Index",yyline,yycolumn);} /* $A7 */
+("ROR" | "ror") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ROR" | "ror"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ROR_Index",yyline,yycolumn);} /* $66 */ /*18 66*/
+("ROL" | "rol") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ROL" | "rol"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_ROL_Index",yyline,yycolumn);} /* $69 */ /*18 69*/
+("JMP" | "jmp") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("JMP" | "jmp"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_JMP_Index",yyline,yycolumn);} /* $6E */ /*18 6E*/
+
 ("ASL" | "asl")| ("LSL" | "lsl"){EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("ASL" | "asl")| ("LSL" | "lsl"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_EORA_Index",yyline,yycolumn);} /* $A8 */
 ("LSR" | "lsr")\${DirExt} | ("LSR" | "lsr") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_LSR_Ext",yyline,yycolumn);} /* $74 */
 ("ASR" | "asr")\${DirExt} | ("ASR" | "asr") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ASR_Ext",yyline,yycolumn);} /* $77 */
+("ROR" | "ror")\${DirExt} | ("ROR" | "ror") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ROR_Ext",yyline,yycolumn);} /* $76 */
+("ROL" | "rol")\${DirExt} | ("ROL" | "rol") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ROL_Ext",yyline,yycolumn);} /* $79 */
+
 ("ASL" | "asl")| ("LSL" | "lsl")\${DirExt} | ("ASL" | "asl")| ("LSL" | "lsl"){EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_ASL_Ext",yyline,yycolumn);} /* $78 */
 /*B*/
 ("LSRB" | "lsrb") {return token(yytext(),"Inst_LSRB",yyline,yycolumn);}      /* $54 */
@@ -194,10 +269,32 @@ Numero = 0 | [1-9][0-9]*
 ("ROLB" | "rolb") {return token(yytext(),"Inst_ROLB",yyline,yycolumn);}      /* $59 */
 
 /*Instrucciones de transferencia*/
+
+("JSR" | "jsr")\${DirSimple} | ("JSR" | "jsr"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_JSR_Dir",yyline,yycolumn);} /* $9D */
+("STS" | "sts")\${DirSimple} | ("STS" | "sts"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_STS_Dir",yyline,yycolumn);} /* $9F */
+("STX" | "stx")\${DirSimple} | ("STX" | "stx"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_STX_Dir",yyline,yycolumn);} /* $DF */
+("STY" | "sty")\${DirSimple} | ("STY" | "sty"){EspacioEnBlanco}\${DirSimple} {return token(yytext(),"Inst_STY_Dir",yyline,yycolumn);} /* $18 DF */
+
+("JSR" | "jsr") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("JSR" | "jsr"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_JSR_Index",yyline,yycolumn);} /* $AD */ /*18 AD*/
+("STS" | "sts") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("STS" | "sts"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_STS_Index",yyline,yycolumn);} /* $AF */ /*18 AF*/
+("LDX" | "ldx") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("LDX" | "ldx"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_LDX_Index",yyline,yycolumn);} /* $EE */ /*CD EE*/
+("STX" | "stx") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("STX" | "stx"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_STX_Index",yyline,yycolumn);} /* $EF */ /*CD EF*/
+("STY" | "sty") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("STY" | "sty"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_STY_Index",yyline,yycolumn);} /* $1A EF */ /*18 EF*/
+
+("JSR" | "jsr")\${DirExt} | ("JSR" | "jsr") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_JSR_Ext",yyline,yycolumn);} /* $BD */
+("STS" | "sts")\${DirExt} | ("STS" | "sts") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_STS_Ext",yyline,yycolumn);} /* $BF */
+("STX" | "stx")\${DirExt} | ("STX" | "stx") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_STX_Ext",yyline,yycolumn);} /* $FF */
+("STY" | "sty")\${DirExt} | ("STY" | "sty") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_STY_Ext",yyline,yycolumn);} /* $18 FF */
+
+("XGDY" | "xgdy") {return token(yytext(),"Inst_XGDY",yyline,yycolumn);}      /* $18 8F */
+("XGDX" | "xgdx") {return token(yytext(),"Inst_XGDX",yyline,yycolumn);}      /* $8F */
+
 ("PSHX" | "pshx") {return token(yytext(),"Inst_PSHX",yyline,yycolumn);}      /* $3C */
 ("PULX" | "pulx") {return token(yytext(),"Inst_PULX",yyline,yycolumn);}      /* $38 */
 ("PULY" | "puly") {return token(yytext(),"Inst_PULY",yyline,yycolumn);}      /* $18 38 */
 ("PSHY" | "pshy") {return token(yytext(),"Inst_PSHY",yyline,yycolumn);}      /* $18 3C */
+("TSX" | "tsx") {return token(yytext(),"Inst_TSX",yyline,yycolumn);}      /* $30 */
+("TXS" | "txs") {return token(yytext(),"Inst_TXS",yyline,yycolumn);}      /* $35 */
 
 ("LDS" | "lds"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_LDS_INMEDIATO",yyline,yycolumn);}  /* $8E */ 
 ("LDX" | "ldx"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_LDX_INMEDIATO",yyline,yycolumn);}  /* $CE */ 
@@ -255,7 +352,11 @@ Numero = 0 | [1-9][0-9]*
 ("SEC" | "sec") {return token(yytext(),"Inst_SEC",yyline,yycolumn);}         /* $0D */
 ("CLI" | "cli") {return token(yytext(),"Inst_CLI",yyline,yycolumn);}         /* $0E */
 ("SEI" | "sei") {return token(yytext(),"Inst_SEI",yyline,yycolumn);}         /* $0F */
-("STOP" | "stop") {return token(yytext(),"Inst_STOP",yyline,yycolumn);}         /* $CF */
+("STOP" | "stop") {return token(yytext(),"Inst_STOP",yyline,yycolumn);}      /* $CF */
+("CLR" | "clr") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("CLR" | "clr"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_CLR_Index",yyline,yycolumn);} /*$6F */ /*18 6F*/
+("TST" | "tst") {EspacioEnBlanco}\${DirSimple}\,{LetraIndex} | ("TST" | "tst"){EspacioEnBlanco}\${DirSimple}\,{EspacioEnBlanco}{LetraIndex} {return token(yytext(),"Inst_TST_Index",yyline,yycolumn);} /* $6D */
+("TST" | "tst")\${DirExt} | ("TST" | "tst") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_TST_Ext",yyline,yycolumn);} /* $7D */
+("JMP" | "jmp")\${DirExt} | ("JMP" | "jmp") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"Inst_JMP_Ext",yyline,yycolumn);} /* $7E */
 /* Branches */
 
 ("BRA" | "bra") {return token(yytext(),"Inst_BRA",yyline,yycolumn);}         /* $20 */
@@ -274,3 +375,10 @@ Numero = 0 | [1-9][0-9]*
 ("BLT" | "blt") {return token(yytext(),"Inst_BLT",yyline,yycolumn);}         /* $2D */
 ("BGT" | "bgt") {return token(yytext(),"Inst_BGT",yyline,yycolumn);}         /* $2E */
 ("BLE" | "ble") {return token(yytext(),"Inst_BLE",yyline,yycolumn);}         /* $2F */
+("BSR" | "bsr") {return token(yytext(),"Inst_BLE",yyline,yycolumn);}         /* $8D */
+
+/* interrupciones */
+("RTS" | "rts") {return token(yytext(),"Inst_RTS",yyline,yycolumn);}         /* $39 */
+("RTI" | "rti") {return token(yytext(),"Inst_RTI",yyline,yycolumn);}         /* $3B */
+("WAI" | "wai") {return token(yytext(),"Inst_WAI",yyline,yycolumn);}         /* $3E */
+("SWI" | "swi") {return token(yytext(),"Inst_SWI",yyline,yycolumn);}         /* $3F */

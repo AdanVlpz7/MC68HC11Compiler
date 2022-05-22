@@ -14,20 +14,23 @@ import compilerTools.Token;
 TerminadorDeLinea = \r|\n|\r\n
 EntradaDeCaracter = [^\r\n]
 EspacioEnBlanco = {TerminadorDeLinea} | [ \t\f]
-ComentarioEspecial = "*" {EntradaDeCaracter}* {TerminadorDeLinea}?
+ComentarioEspecial = "*" {EntradaDeCaracter}* {TerminadorDeLinea}
 
 /* Comentario */
 Comentario = {ComentarioEspecial}
 
 /* Identificador */
+
 LetraIndex = [X | x] | [Y|y]
 Letra = [A-Za-zÑñ_ÁÉÍÓÚáéíóúÜü]
 Digito = [0-9]
 Identificador = {Letra}({Letra}|{Digito})*
+Identifier = [:jletter:] [:jletterdigit:]*
 DirSimple = ({Letra}|{Digito})({Letra}|{Digito})
 DirExt = {DirSimple}{DirSimple}
 /* Número */
 Numero = 0 | [1-9][0-9]*
+
 %%
 
 /* Direccion */
@@ -44,12 +47,12 @@ Numero = 0 | [1-9][0-9]*
 "}" {return token(yytext(),"LLAVE_C",yyline,yycolumn);}
 
 /* Signos de operacion */
-"#" {return token(yytext(),"LLAVE_A",yyline,yycolumn);}
-"$" {return token(yytext(),"LLAVE_C",yyline,yycolumn);}
+"#" {return token(yytext(),"GATO",yyline,yycolumn);}
+"$" {return token(yytext(),"PESOS",yyline,yycolumn);}
 "," {return token(yytext(),"COMA",yyline,yycolumn);}
 
 /* Directivas */
-("ORG" | "org") {EspacioEnBlanco}{DirExt} {return token(yytext(),"INICIO",yyline,yycolumn);}
+("ORG" | "org") {EspacioEnBlanco}\${DirExt} {return token(yytext(),"INICIO",yyline,yycolumn);}
 
 "EQU" | "equ" {return token(yytext(),"Directiva_EQU",yyline,yycolumn);}
 
@@ -299,7 +302,7 @@ Numero = 0 | [1-9][0-9]*
 ("TSX" | "tsx") {return token(yytext(),"Inst_TSX",yyline,yycolumn);}      /* $30 */
 ("TXS" | "txs") {return token(yytext(),"Inst_TXS",yyline,yycolumn);}      /* $35 */
 
-("LDS" | "lds"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_LDS_INMEDIATO",yyline,yycolumn);}  /* $8E */ 
+("LDS" | "lds"){EspacioEnBlanco}\#\$({DirSimple}|{DirExt}) {return token(yytext(),"Inst_LDS_INMEDIATO",yyline,yycolumn);}  /* $8E */ 
 ("LDX" | "ldx"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_LDX_INMEDIATO",yyline,yycolumn);}  /* $CE */ 
 ("LDY" | "ldy"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_LDY_INMEDIATO",yyline,yycolumn);}  /* $18 CE */ 
 ("LDD" | "ldd"){EspacioEnBlanco}\#\${DirSimple} {return token(yytext(),"Inst_LDD_INMEDIATO",yyline,yycolumn);}  /* $CC */ 
@@ -480,10 +483,10 @@ Numero = 0 | [1-9][0-9]*
 "INCA"|"inca" {EspacioEnBlanco}(\${DirExt}|\${DirSimple}|{LetraIndex}|\#|\,|\$|{Letra}|{Numero}) {return token(yytext(),"ERROR_6",yyline,yycolumn);}     /* $4C */
 "CLRA"|"clra" {EspacioEnBlanco}(\${DirExt}|\${DirSimple}|{LetraIndex}|\#|\,|\$|{Letra}|{Numero}) {return token(yytext(),"ERROR_6",yyline,yycolumn);}     /* $4F */
 
-"SBA" | "sba" {EspacioEnBlanco}(\${DirExt}|\${DirSimple}|{LetraIndex}|\#|\,|\$|{Letra}|{Numero}) {return token(yytext(),"ERROR_6",yyline,yycolumn);}      /* $10 */
-"ABA" | "aba" {EspacioEnBlanco}(\${DirExt}|\${DirSimple}|{LetraIndex}|\#|\,|\$|{Letra}|{Numero}) {return token(yytext(),"ERROR_6",yyline,yycolumn);}      /* $1B */
-"ABY" | "aby" {EspacioEnBlanco}(\${DirExt}|\${DirSimple}|{LetraIndex}|\#|\,|\$|{Letra}|{Numero}) {return token(yytext(),"ERROR_6",yyline,yycolumn);}      /* $18 3A */
-"ABX" | "abx" {EspacioEnBlanco}(\${DirExt}|\${DirSimple}|{LetraIndex}|\#|\,|\$|{Letra}|{Numero}) {return token(yytext(),"ERROR_6",yyline,yycolumn);}      /* $3A */
+"SBA" | "sba" (EspacioEnBlanco) ((\$DirExt)|(\$DirSimple)|(LetraIndex)|\#|\,|\$|(Letra)|(Numero)) {return token(yytext(),"ERROR_6",yyline,yycolumn);}      /* $10 */
+"ABA" | "aba" (EspacioEnBlanco) ((\$DirExt)|(\$DirSimple)|(LetraIndex)|\#|\,|\$|(Letra)|(Numero)) {return token(yytext(),"ERROR_6",yyline,yycolumn);}      /* $1B */
+"ABY" | "aby" (EspacioEnBlanco) ((\$DirExt)|(\$DirSimple)|(LetraIndex)|\#|\,|\$|(Letra)|(Numero)) {return token(yytext(),"ERROR_6",yyline,yycolumn);}      /* $18 3A */
+"ABX" | "abx" (EspacioEnBlanco) ((\$DirExt)|(\$DirSimple)|(LetraIndex)|\#|\,|\$|(Letra)|(Numero)) {return token(yytext(),"ERROR_6",yyline,yycolumn);}      /* $3A */
 
 /* --------------------- ERROR 9 --------------------- */
 

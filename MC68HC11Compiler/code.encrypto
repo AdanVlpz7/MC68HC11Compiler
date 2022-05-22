@@ -1,5 +1,7 @@
-org 4003
-equ
-bvc 3
-bvc $12
-bvc e
+CUA	EQU $0016
+CDA	EQU $0015
+CCA	EQU $0014
+CUB	EQU $0019
+
+ORG	$8000 *INICIO
+LDS	#$0200

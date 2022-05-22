@@ -163,6 +163,11 @@ public class Compilador extends javax.swing.JFrame {
     
     private void syntaticAnalysis(){
         Grammar gramatica = new Grammar(tokens,errores);
+        /*ELIMINACION DE ERRORES*/
+        gramatica.delete(new String[]{"Error","Error1","Error2"},1);
+        gramatica.group("Variable","Identifier EspacioEnBlanco Directiva_EQU EspacioEnBlanco PESOS DirExt");
+        gramatica.group("Variable","EspacioEnBlanco Directiva_EQU EspacioEnBlanco PESOS DirExt",true,2,
+                "error sintatico: falta el identificador en la variable [#,%]");
         gramatica.show();
     }
     

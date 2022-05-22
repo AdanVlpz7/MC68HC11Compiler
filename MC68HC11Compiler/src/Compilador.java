@@ -211,6 +211,7 @@ public class Compilador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 51, 51));
+        setForeground(java.awt.Color.black);
         setResizable(false);
 
         jtaOutputConsole.setColumns(20);

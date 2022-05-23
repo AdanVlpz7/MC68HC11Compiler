@@ -75,7 +75,24 @@ public class Compilador extends javax.swing.JFrame {
         identificadores = new HashMap<>();
         //autocompletar algunas palabras
         //funciona con CTRL+SPACE
-        Functions.setAutocompleterJTextComponent(new String[]{"END","FCB","ORG","org","end","fcb","EQU"}, jtpCode, ()->{
+        Functions.setAutocompleterJTextComponent(new String[]{"ORG","org","EQU","equ","END","end","EQU","FCB","fcb",
+        "SBA","sba","ABA","aba","ABY","aby","ABX","abx","SUBA","suba","SBCA","SBCA","sbca","SUBD","subd","ADCA",
+        "adca","ADDA","adda","ADDD","addd","SUBB","subb","SBCB","sbcb","ADCB","adcb","ADDB","addb","INX","inx","DEX",
+        "dex","INY","iny","DEY","dey","DAA","daa","INS","ins","DES","des","NEGA","nega","COMA","coma","DECA","deca",
+        "INCA","inca","CLRA","clra","NEG","neg","COM","com","DEC","dec","INC","inc","CLR","clr","NEGB","negb","COMP",
+        "comb","DECB","decb","INCB","incb","CLRB","clrb","IDIV","idiv","FDIV","fdiv","MUL","mul","CBA","cba","TSTA",
+        "tsta","CMPA","cmpa","BITA","bita","CPX","cpx","CPY","cpy","CPD","cpd","TSTB","tstb","CMPB","cmpb","BITB","bitb",
+        "BRSET","brset","BRCLR","brclr","BSET","bset","BCLR","bclr","ORAA","oraa","ANDA","anda","EORA","eora","ANDB","andb",
+        "EORB","eorb","ORAB","orab","LSRD","lsrd","ASLD","asld","LSRA","lsra","RORA","rora","ASRA","asra","ASLA","asla",
+        "ROLA","rola","LSR","lsr","ASR","asr","ROR","ror","ROL","rol","JMP","jmp","ASL","asl","LSL","lsl","LSRB","lsrb",
+        "RORB","rorb","ASRB","asrb","ASLB","aslb","ROLB","rolb","JSR","jsr","STS","sts","STX","stx","STY","sty","LDX","ldx",
+        "XGDY","xgdy","XGDX","xgdx","PSHX","pshx","PULX","pulx","PULY","puly","PSHY","pshy","TSX","tsx","TXS","txs","LDS","lds",
+        "LDY","ldy","LDD","ldd","STD","std","TAP","tap","TPA","tpa","TAB","tab","PULA","pula","PSHA","psha","LDAA","ldaa","STAA",
+        "staa","TBA","tba","PULB","pulb","PSHB","pshb","LDAB","ldab","STAB","stab","TEST","test","NOP","nop","CLV","clv",
+        "SEV","sev","CLC","clc","SEC","sec","CLI","cli","SEI","sei","STOP","stop","CLR","clr","TST","tst","BRA","bra",
+        "BRN","brn","BHI","bhi","BLS","bls","BCC","bcc","BHS","bhs","BCS","bcs","BLO","blo","BNE","bne",
+        "BEQ","beq","BVC","bvc","BVS","bvs","BPL","bpl","BMI","bmi","BGE","bge","BLT","blt","BGT","bgt","BLE","ble",
+        "BSR","bsr","RTS","rts","RTI","rti","WAI","wai","SWI","swi"}, jtpCode, ()->{
             timerKeyReleased.restart();
         });
         
@@ -164,9 +181,9 @@ public class Compilador extends javax.swing.JFrame {
     private void syntaticAnalysis(){
         Grammar gramatica = new Grammar(tokens,errores);
         /*ELIMINACION DE ERRORES*/
-        gramatica.delete(new String[]{"Error","Error1","Error2"},1);
-        gramatica.group("Variable","Identifier EspacioEnBlanco Directiva_EQU EspacioEnBlanco PESOS DirExt");
-        gramatica.group("Variable","EspacioEnBlanco Directiva_EQU EspacioEnBlanco PESOS DirExt",true,2,
+        gramatica.delete(new String[]{"Error","Error1","Error2","Error3","Error4","Error5","Error6","Error7","Error8","Error9"},1);
+        gramatica.group("Variable","IDENTIFICADOR Directiva_EQU DirExt");
+        gramatica.group("Variable","Directiva_EQU  DirExt",true,2,
                 "error sintatico: falta el identificador en la variable [#,%]");
         gramatica.show();
     }

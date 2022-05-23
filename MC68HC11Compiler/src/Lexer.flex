@@ -13,7 +13,8 @@ import compilerTools.Token;
 /* Variables básicas de comentarios y espacios */
 TerminadorDeLinea = \r|\n|\r\n
 EntradaDeCaracter = [^\r\n]
-EspacioEnBlanco = {TerminadorDeLinea} | [ \t\f]
+EspacioEnBlanco = {TerminadorDeLinea}
+tab = [ \t\f]
 ComentarioEspecial = "*" {EntradaDeCaracter}* {TerminadorDeLinea}
 
 /* Comentario */
@@ -35,7 +36,7 @@ Numero = 0 | [1-9][0-9]*
 
 /* Direccion */
 \${DirSimple} { return token(yytext(), "DirSimple", yyline, yycolumn); }
-\${DirExt} { return token(yytext(), "DirExt", yyline, yycolumn); }
+\${DirExt} { return token(yytext(), "DirEXT", yyline, yycolumn); }
 /* Comentarios o espacios en blanco */
 {Comentario}|{EspacioEnBlanco} { /*Ignorar*/ }
 
@@ -50,7 +51,7 @@ Numero = 0 | [1-9][0-9]*
 "#" {return token(yytext(),"GATO",yyline,yycolumn);}
 "$" {return token(yytext(),"PESOS",yyline,yycolumn);}
 "," {return token(yytext(),"COMA",yyline,yycolumn);}
-
+{tab} {return token(yytext(),"TAB",yyline,yycolumn);}
 /* Directivas */
 ("ORG" | "org") {return token(yytext(),"INICIO",yyline,yycolumn);}
 

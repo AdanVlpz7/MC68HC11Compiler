@@ -185,6 +185,44 @@ public class Compilador extends javax.swing.JFrame {
         gramatica.group("Variable","IDENTIFICADOR Directiva_EQU DirExt");
         gramatica.group("Variable","Directiva_EQU  DirExt",true,2,
                 "error sintatico: falta el identificador en la variable [#,%]");
+        gramatica.finalLineColumn();
+        gramatica.group("Variable","IDENTIFICADOR Directiva_EQU",true,2,
+                "error sintatico: falta el valor asignado a la variable [#,%]");
+        gramatica.initialLineColumn();
+        gramatica.delete("Directiva_EQU",4,
+                "Error sintatico{}: La directiva EQU no fue establecida en la declaracion");
+        gramatica.group("DirExt","IDENTIFICADOR",true);
+        gramatica.group("INSTRUCCIONES","(Inst_SBA|Inst_ABA|Inst_ABY|Inst_ABX|Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADCA|Inst_ADDA|Inst_ADDD|Inst_SUBB|"+
+            "Inst_SBCB|Inst_ADCB|Inst_ADDB|Inst_INX|Inst_DEX|Inst_INY|Inst_DEY|Inst_DAA|Inst_INS|Inst_DES|Inst_NEGA|Inst_COMA|Inst_DECA|Inst_INCA|INST_DEC"+
+            "Inst_INC|Inst_CLR|Inst_NEGB|Inst_COMP|Inst_DECB|Inst_INCB|Inst_CLRB|Inst_IDIV|Inst_FDIV|Inst_MUL|Inst_CBA|Inst_TSTA|Inst_CMPA|Inst_BITA|Inst_CPX"+
+            "Inst_CPY|Inst_CPD|Inst_TSTB|Inst_CMPB|Inst_BITB|Inst_BRSET|Inst_BRCLR|Inst_BSET|Inst_BCLR|Inst_ORAA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB"+
+            "Inst_LSRD|Inst_ASLA|Inst_ASLD|Inst_LSRA|Inst_RORA|Inst_ASRA|Inst_ROLA|Inst_LSR|Inst_ASR|Inst_ROR|Inst_ROL|Inst_JMP|Inst_ASL|Inst_LSRB|Inst_RORB|Inst_ASRB"+
+            "Inst_ASLB|Inst_ROLB|Inst_JSR|Inst_STS|Inst_STX|Inst_STY|Inst_XGDY|Inst_XGDX|Inst_PSHX|Inst_PULX|Inst_PULY|Inst_PSHY|Inst_TSX|Inst_TXS|Inst_LDS|Inst_LDX|Inst_LDY" +    
+            "Inst_LDD|Inst_STD|Inst_TAP|Inst_TPA|Inst_PULA|Inst_PSHA|Inst_LDAA|Inst_STAA|Inst_TBA|Inst_PULB|Inst_PSHB|Inst_LDAB|Inst_STAB|Inst_TEST|Inst_NOP|Inst_CLV|Inst_SEV|Inst_CLC"+    
+            "Inst_SEC|Inst_CLI|Inst_SEI|Inst_STOP|Inst_CLR|Inst_TST|Inst_BRA|Inst_BRN|Inst_BHI|Inst_BLS|Inst_BCC|Inst_BCS|Inst_BNE|Inst_BEQ|Inst_BVC|Inst_BPL|Inst_BMI|Inst_BGE|Inst_BLT|Inst_BGT"+
+            "Inst_BLE|Inst_BSR|Inst_RTS|Inst_RTI|Inst_WAI|Inst_SWI)",true);
+        
+        gramatica.group("INSTRUCCIONES_INHERENTES","(Inst_TEST|Inst_NOP|Inst_IDIV|Inst_FDIV|Inst_LSRD|Inst_ASLD|Inst_TAP|Inst_TPA|Inst_INX|Inst_DEX|Inst_CLV|Inst_SEV|Inst_CLC|Inst_SEC"+
+            "Inst_CLI|Inst_SEI|Inst_SBA|Inst_CBA|Inst_TAB|Inst_TBA|Inst_INY|Inst_DEY|Inst_TSY|Inst_TYS|Inst_PULY|Inst_ABY|Inst_PSHY|Inst_XGDY|Inst_DAA|Inst_ABA|Inst_BRA|Inst_BRN|Inst_BHI"+
+            "Inst_BLS|Inst_BCC|Inst_BCS|Inst_BNE|Inst_BEQ|Inst_BVQ|Inst_BVS|Inst_BPL|Inst_BMI|Inst_BGE|Inst_BLT|Inst_BGT|Inst_BLE|Inst_TSX|Inst_INS|Inst_PULA|Inst_PULB|Inst_DES|Inst_TXS|Inst_PSHA"+
+            "Inst_PSHB|Inst_PULX|Inst_RTS|Inst_ABX|Inst_RTI|Inst_PSHX|Inst_MUL|Inst_WAI|Inst_SWI|Inst_NEGA|Inst_COMA|Inst_LSRA|Inst_RORA|Inst_ASRA|Inst_ASLA|Inst_ROLA|Inst_DECA|Inst_INCA|Inst_TSTA|Inst_CLRA|Inst_NEGB|Inst_COMB|Inst_LSRB|Inst_RORB"+
+            "Inst_ASRB|Inst_ASLB|Inst_ROLB|Inst_DECB|Inst_INCB|Inst_TSTB|Inst_CLRB|Inst_BSR|Inst_XGDX|Inst_STOP|)",true);
+        
+        gramatica.group("INSTRUCCIONES_INHERENTES","(Inst_TEST|Inst_NOP|Inst_IDIV|Inst_FDIV|Inst_LSRD|Inst_ASLD|Inst_TAP|Inst_TPA|Inst_INX|Inst_DEX|Inst_CLV|Inst_SEV|Inst_CLC|Inst_SEC"+
+            "Inst_CLI|Inst_SEI|Inst_SBA|Inst_CBA|Inst_TAB|Inst_TBA|Inst_INY|Inst_DEY|Inst_TSY|Inst_TYS|Inst_PULY|Inst_ABY|Inst_PSHY|Inst_XGDY|Inst_DAA|Inst_ABA|Inst_BRA|Inst_BRN|Inst_BHI"+
+            "Inst_BLS|Inst_BCC|Inst_BCS|Inst_BNE|Inst_BEQ|Inst_BVQ|Inst_BVS|Inst_BPL|Inst_BMI|Inst_BGE|Inst_BLT|Inst_BGT|Inst_BLE|Inst_TSX|Inst_INS|Inst_PULA|Inst_PULB|Inst_DES|Inst_TXS|Inst_PSHA"+
+            "Inst_PSHB|Inst_PULX|Inst_RTS|Inst_ABX|Inst_RTI|Inst_PSHX|Inst_MUL|Inst_WAI|Inst_SWI|Inst_NEGA|Inst_COMA|Inst_LSRA|Inst_RORA|Inst_ASRA|Inst_ASLA|Inst_ROLA|Inst_DECA|Inst_INCA|Inst_TSTA|Inst_CLRA|Inst_NEGB|Inst_COMB|Inst_LSRB|Inst_RORB"+
+            "Inst_ASRB|Inst_ASLB|Inst_ROLB|Inst_DECB|Inst_INCB|Inst_TSTB|Inst_CLRB|Inst_BSR|Inst_XGDX|Inst_STOP) DirExt|DirSimple" ,true,6,
+                "error sintatico (006) : esta instruccion no lleva operandos [#,%]");
+        gramatica.finalLineColumn();
+        //gramatica.group("INSTRUCCIONES_INMEDIATAS","",true);
+        
+        //gramatica.group("INSTRUCCIONES_DIRECTAS","",true);
+        
+        //gramatica.group("INSTRUCCIONES_INDEX","",true);
+        
+        //gramatica.group("INSTRUCCIONES_EXT","",true);
+        
         gramatica.show();
     }
     

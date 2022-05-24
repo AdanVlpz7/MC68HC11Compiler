@@ -182,71 +182,110 @@ public class Compilador extends javax.swing.JFrame {
         Grammar gramatica = new Grammar(tokens,errores);
         /*ELIMINACION DE ERRORES*/
         gramatica.delete(new String[]{"Error","Error1","Error2","Error3","Error4","Error5","Error6","Error7","Error8","Error9"},1);
-        gramatica.group("Variable","IDENTIFICADOR TAB Directiva_EQU DirEXT");
-        gramatica.group("Variable","Directiva_EQU  DirEXT",true,2,
+        gramatica.group("Variable","IDENTIFICADOR TAB Directiva_EQU TAB DirEXT");
+        gramatica.group("Variable","Directiva_EQU TAB DirEXT",true,2,
                 "error sintatico: falta el identificador en la variable [#,%]");
         gramatica.finalLineColumn();
         gramatica.group("Variable","IDENTIFICADOR Directiva_EQU",true,2,
                 "error sintatico: falta el valor asignado a la variable [#,%]");
         gramatica.initialLineColumn();
-        gramatica.group("IDENTIFICADOR","DirEXT",true);
+        gramatica.delete("Directiva_EQU",4,
+                "Error sintatico{}: La directiva EQU no fue establecida en la declaracion");
+        gramatica.group("DirEXT","IDENTIFICADOR",true);
         
-        gramatica.group("INSTRUCCIONES_INHERENTES","(Inst_TEST|Inst_NOP|Inst_IDIV|Inst_FDIV|Inst_LSRD|Inst_ASLD|Inst_TAP|Inst_TPA|Inst_INX|Inst_DEX|Inst_CLV|Inst_SEV|Inst_CLC|Inst_SEC"+
+        gramatica.group("INSTRUCCIONES_INHERENTES","TAB (Inst_TEST|Inst_NOP|Inst_IDIV|Inst_FDIV|Inst_LSRD|Inst_ASLD|Inst_TAP|Inst_TPA|Inst_INX|Inst_DEX|Inst_CLV|Inst_SEV|Inst_CLC|Inst_SEC"+
             "Inst_CLI|Inst_SEI|Inst_SBA|Inst_CBA|Inst_TAB|Inst_TBA|Inst_INY|Inst_DEY|Inst_TSY|Inst_TYS|Inst_PULY|Inst_ABY|Inst_PSHY|Inst_XGDY|Inst_DAA|Inst_ABA|Inst_BRA|Inst_BRN|Inst_BHI"+
             "Inst_BLS|Inst_BCC|Inst_BCS|Inst_BNE|Inst_BEQ|Inst_BVQ|Inst_BVS|Inst_BPL|Inst_BMI|Inst_BGE|Inst_BLT|Inst_BGT|Inst_BLE|Inst_TSX|Inst_INS|Inst_PULA|Inst_PULB|Inst_DES|Inst_TXS|Inst_PSHA"+
             "Inst_PSHB|Inst_PULX|Inst_RTS|Inst_ABX|Inst_RTI|Inst_PSHX|Inst_MUL|Inst_WAI|Inst_SWI|Inst_NEGA|Inst_COMA|Inst_LSRA|Inst_RORA|Inst_ASRA|Inst_ASLA|Inst_ROLA|Inst_DECA|Inst_INCA|Inst_TSTA|Inst_CLRA|Inst_NEGB|Inst_COMB|Inst_LSRB|Inst_RORB"+
-            "Inst_ASRB|Inst_ASLB|Inst_ROLB|Inst_DECB|Inst_INCB|Inst_TSTB|Inst_CLRB|Inst_BSR|Inst_XGDX|Inst_STOP|)",true);
-        
-        gramatica.group("INSTRUCCIONES_INHERENTES","(Inst_TEST|Inst_NOP|Inst_IDIV|Inst_FDIV|Inst_LSRD|Inst_ASLD|Inst_TAP|Inst_TPA|Inst_INX|Inst_DEX|Inst_CLV|Inst_SEV|Inst_CLC|Inst_SEC"+
+            "Inst_ASRB|Inst_ASLB|Inst_ROLB|Inst_DECB|Inst_INCB|Inst_TSTB|Inst_CLRB|Inst_BSR|Inst_XGDX|Inst_STOP)",true);        
+        gramatica.group("INSTRUCCIONES_INHERENTES_ERR6","TAB (Inst_TEST|Inst_NOP|Inst_IDIV|Inst_FDIV|Inst_LSRD|Inst_ASLD|Inst_TAP|Inst_TPA|Inst_INX|Inst_DEX|Inst_CLV|Inst_SEV|Inst_CLC|Inst_SEC"+
             "Inst_CLI|Inst_SEI|Inst_SBA|Inst_CBA|Inst_TAB|Inst_TBA|Inst_INY|Inst_DEY|Inst_TSY|Inst_TYS|Inst_PULY|Inst_ABY|Inst_PSHY|Inst_XGDY|Inst_DAA|Inst_ABA|Inst_BRA|Inst_BRN|Inst_BHI"+
             "Inst_BLS|Inst_BCC|Inst_BCS|Inst_BNE|Inst_BEQ|Inst_BVQ|Inst_BVS|Inst_BPL|Inst_BMI|Inst_BGE|Inst_BLT|Inst_BGT|Inst_BLE|Inst_TSX|Inst_INS|Inst_PULA|Inst_PULB|Inst_DES|Inst_TXS|Inst_PSHA"+
             "Inst_PSHB|Inst_PULX|Inst_RTS|Inst_ABX|Inst_RTI|Inst_PSHX|Inst_MUL|Inst_WAI|Inst_SWI|Inst_NEGA|Inst_COMA|Inst_LSRA|Inst_RORA|Inst_ASRA|Inst_ASLA|Inst_ROLA|Inst_DECA|Inst_INCA|Inst_TSTA|Inst_CLRA|Inst_NEGB|Inst_COMB|Inst_LSRB|Inst_RORB"+
             "Inst_ASRB|Inst_ASLB|Inst_ROLB|Inst_DECB|Inst_INCB|Inst_TSTB|Inst_CLRB|Inst_BSR|Inst_XGDX|Inst_STOP) DirEXT|DirSimple" ,true,6,
                 "error sintatico (006) : esta instruccion no lleva operandos [#,%]");
+        gramatica.group("INSTRUCCIONES_INHERENTES_ERR9"," (Inst_TEST|Inst_NOP|Inst_IDIV|Inst_FDIV|Inst_LSRD|Inst_ASLD|Inst_TAP|Inst_TPA|Inst_INX|Inst_DEX|Inst_CLV|Inst_SEV|Inst_CLC|Inst_SEC"+
+            "Inst_CLI|Inst_SEI|Inst_SBA|Inst_CBA|Inst_TAB|Inst_TBA|Inst_INY|Inst_DEY|Inst_TSY|Inst_TYS|Inst_PULY|Inst_ABY|Inst_PSHY|Inst_XGDY|Inst_DAA|Inst_ABA|Inst_BRA|Inst_BRN|Inst_BHI"+
+            "Inst_BLS|Inst_BCC|Inst_BCS|Inst_BNE|Inst_BEQ|Inst_BVQ|Inst_BVS|Inst_BPL|Inst_BMI|Inst_BGE|Inst_BLT|Inst_BGT|Inst_BLE|Inst_TSX|Inst_INS|Inst_PULA|Inst_PULB|Inst_DES|Inst_TXS|Inst_PSHA"+
+            "Inst_PSHB|Inst_PULX|Inst_RTS|Inst_ABX|Inst_RTI|Inst_PSHX|Inst_MUL|Inst_WAI|Inst_SWI|Inst_NEGA|Inst_COMA|Inst_LSRA|Inst_RORA|Inst_ASRA|Inst_ASLA|Inst_ROLA|Inst_DECA|Inst_INCA|Inst_TSTA|Inst_CLRA|Inst_NEGB|Inst_COMB|Inst_LSRB|Inst_RORB"+
+            "Inst_ASRB|Inst_ASLB|Inst_ROLB|Inst_DECB|Inst_INCB|Inst_TSTB|Inst_CLRB|Inst_BSR|Inst_XGDX|Inst_STOP)",true,9,
+                "error sintatico (009) : INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN [#,%]");
         
         /* INSTRUCCIONES INMEDIATAS */
-        gramatica.group("INSTRUCCIONES_INMEDIATAS","(Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
+        gramatica.group("INSTRUCCIONES_INMEDIATAS","TAB (Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
             "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) TAB GATO DirExt|DirSimple",true);
-        gramatica.group("INSTRUCCIONES_INMEDIATAS","(Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
-            "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) TAB GATO",true,5,
-            "error sintatico (005) : Instruccion carece de comandos [#,%]");
-        gramatica.group("INSTRUCCIONES_INMEDIATAS","(Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
-            "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) GATO DirEXT|DirSimple",true,9,
-            "error sintatico (009) : esta instruccion requiere un espacio considerable (TAB) [#,%]");
+        
+        gramatica.group("INSTRUCCIONES_INMEDIATAS_ERR6","TAB (Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
+            "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) TAB GATO",true,6,
+            "error sintatico (006) : Instruccion carece de comandos [#,%]");
+        
+        gramatica.group("INSTRUCCIONES_INMEDIATAS_ERR9"," (Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
+            "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) TAB GATO DirExt|DirSimple",true,9,
+            "error sintatico (009) : INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN [#,%]");
+                
+        gramatica.group("INSTRUCCIONES_INMEDIATAS_ERR11","TAB (Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
+            "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) GATO DirEXT|DirSimple",true,11,
+            "error sintatico (011) : esta instruccion requiere un espacio considerable entre el nombre de la instruccion y sus operandos (TAB) [#,%]");
         
         /* INSTRUCCIONES DIRECTAS */        
-        gramatica.group("INSTRUCCIONES_DIRECTAS","(INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
+        gramatica.group("INSTRUCCIONES_DIRECTAS","TAB (INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
             "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS|INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
             "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB DirSimple ",true);
-        gramatica.group("INSTRUCCIONES_DIRECTAS_ERR4","(INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR)TAB DirEXT ",true,5,
-            "error sintatico (004) : Instruccion tiene un operando no aplicable [#,%]");
-        gramatica.group("INSTRUCCIONES_DIRECTAS_ERR5","(INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
+        gramatica.group("INSTRUCCIONES_DIRECTAS_ERR5","TAB (INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
             "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS|INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
             "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB ",true,5,
             "error sintatico (005) : Instruccion carece de comandos [#,%]");
-        gramatica.group("INSTRUCCIONES_DIRECTAS_ERR9","(INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
+        gramatica.group("INSTRUCCIONES_DIRECTAS_ERR7","TAB (INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR)TAB DirEXT ",true,7,
+            "error sintatico (007) : Magnitud de operando erronea [#,%]");
+        gramatica.group("INSTRUCCIONES_DIRECTAS_ERR9"," (INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
             "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS|INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
-            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB DirSimple",true,5,
-            "error sintatico (009) : esta instruccion requiere un espacio considerable (TAB) [#,%]");
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB DirSimple ",true,9,
+            "error sintatico (009) : INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN [#,%]");
+        gramatica.group("INSTRUCCIONES_DIRECTAS_ERR11","TAB (INST_BRSET|INST_BRCLR|INST_BSET|INST_BCLR|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
+            "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS|INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB DirSimple",true,11,
+            "error sintatico (011) : esta instruccion requiere un espacio considerable entre el nombre de la instruccion y sus operandos(TAB) [#,%]");
         
         /* INSTRUCCIONES INDEX */
-        //gramatica.group("INSTRUCCIONES_INDEX","",true);
-        
+        gramatica.group("INSTRUCCIONES_INDEX","TAB (INST_CPD|INST_CPY|INST_LDY|INST_STY|INST_BSET|INST_BCLR|INST_BRSET|INST_BRCLR|INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR|"+
+            "INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA"+
+            "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS|INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX|INST_STY|INST_LDY) TAB DirSimple TAB COMA ('X'|'x'|'Y'|'y')",true);
+        gramatica.group("INSTRUCCIONES_INDEX_ERR5","TAB (INST_CPD|INST_CPY|INST_LDY|INST_STY|INST_BSET|INST_BCLR|INST_BRSET|INST_BRCLR|INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR|"+
+            "INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA"+
+            "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS|INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX|INST_STY|INST_LDY) ((TAB DirSimple TAB COMA)|(TAB COMA ('X'|'x'|'Y'|'y')))",true,5,
+            "error sintatico (005) : Instruccion carece de comandos [#,%]");
+        gramatica.group("INSTRUCCIONES_INDEX_ERR9"," (INST_CPD|INST_CPY|INST_LDY|INST_STY|INST_BSET|INST_BCLR|INST_BRSET|INST_BRCLR|INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR|"+
+            "INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA"+
+            "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS|INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX|INST_STY|INST_LDY) TAB DirSimple TAB COMA ('X'|'x'|'Y'|'y')",true,9,
+             "error sintatico (009) : INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN [#,%]");
+        gramatica.group("INSTRUCCIONES_INDEX_ERR11"," TAB (INST_CPD|INST_CPY|INST_LDY|INST_STY|INST_BSET|INST_BCLR|INST_BRSET|INST_BRCLR|INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR|"+
+            "INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA"+
+            "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS|INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX|INST_STY|INST_LDY) DirSimple TAB COMA ('X'|'x'|'Y'|'y')",true,11,
+            "error sintatico (011) : esta instruccion requiere un espacio considerable entre el nombre de la instruccion y sus operandos(TAB) [#,%]");
+
         
         /* INSTRUCCIONES EXT */
-        gramatica.group("INSTRUCCIONES_EXT","(INST_CPY|INST_LDY|INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
+        gramatica.group("INSTRUCCIONES_EXT","TAB (INST_CPY|INST_LDY|INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
             "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS| INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
-            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB DirEXT ",true);
-        gramatica.group("INSTRUCCIONES_EXT","(INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR)TAB DirSimple ",true,4,
-                "error sintatico (004) : Instruccion tiene un operando no aplicable [#,%]");           
-        gramatica.group("INSTRUCCIONES_EXT_ERR5","(INST_CPY|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB DirEXT ",true);        
+        gramatica.group("INSTRUCCIONES_EXT_ERR5","TAB (INST_CPY|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
             "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS| INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
             "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB ",true,5,
             "error sintatico (005) : Instruccion carece de comandos [#,%]");    
-        gramatica.group("INSTRUCCIONES_EXT_ERR9","(INST_CPY|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
+        gramatica.group("INSTRUCCIONES_EXT_ERR7","TAB (INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR)TAB DirSimple ",true,11,
+                "error sintatico (007) : Magnitud de operando erronea [#,%]");
+        gramatica.group("INSTRUCCIONES_EXT_ERR9","(INST_CPY|INST_LDY|INST_NEG|INST_COM|INST_LSR|INST_ROR|INST_ASR|INST_ASL|INST_ROL|INST_DEC|INST_INC|INST_TST|INST_JMP|INST_CLR|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
             "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS| INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
-            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX) DirEXT ",true,9,
-            "error sintatico (009) : esta instruccion requiere un espacio considerable (TAB) [#,%]");
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX)TAB DirEXT ",true,9,
+            "error sintatico (009) : INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN [#,%]");                        
+        gramatica.group("INSTRUCCIONES_EXT_ERR11","TAB (INST_CPY|INST_LDY|INST_STY|INST_CPD|INST_SUBA|INST_CMPA|INST_SBCA|INST_SUBD|INST_ANDA|INST_BITA|INST_LDAA|"+
+            "INST_STAA|INST_EORA|INST_ADCA|INST_ORAA|INST_ADDA|INST_CPX|INST_JSR|INST_LDS|INST_STS| INST_SUBB|INST_CMPB|INST_SBCB|INST_ANDB|INST_BITB|INST_LDAB|"+
+            "INST_STAB|INST_EORB|INST_ADCB|INST_ORAB|INST_ADDB|INST_LDD|INST_STD|INST_LDX|INST_STX) DirEXT ",true,11,
+            "error sintatico (011) : esta instruccion requiere un espacio considerable entre el nombre de la instruccion y sus operandos(TAB) [#,%]");
  
         gramatica.show();
     }

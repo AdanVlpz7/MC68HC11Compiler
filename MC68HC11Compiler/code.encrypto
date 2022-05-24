@@ -5,19 +5,21 @@
 **********************************
 *Declaracion de variables
 **********************************
-HH	equ  $0000
-HL	equ  $0001
-MH	equ  $0002
-ML	equ  $0003
-SH	equ  $0004
-SL	equ  $0005
-SEG	equ  $0006
+HH	equ $0000
+HL	equ $0001
+MH	equ $0002
+ML	equ $0003
+SH	equ $0004
+SL	equ $0005
+SEG	equ $0006
 **********************************
 *INICIO  DEL PROGRAMA
 **********************************
-ORG	$8000 *INICIO
-LDS	#$0200
-
-CLI
-BLS	$1231
-PULX
+	ORG	$8000 *INICIO
+	LDS	#$0200
+	BRSET	$4121}
+	SEI
+	BCS
+	LDS
+	BLS	$1231
+	PULX

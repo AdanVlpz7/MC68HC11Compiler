@@ -15,7 +15,7 @@ TerminadorDeLinea = \r|\n|\r\n
 EntradaDeCaracter = [^\r\n]
 EspacioEnBlanco = {TerminadorDeLinea}
 tab = [ \t\f]
-ComentarioEspecial = "*" {EntradaDeCaracter}* {TerminadorDeLinea}
+ComentarioEspecial = "*" {EntradaDeCaracter}*{TerminadorDeLinea}?
 
 /* Comentario */
 Comentario = {ComentarioEspecial}
@@ -27,33 +27,26 @@ Letra = [A-Za-zÑñ_ÁÉÍÓÚáéíóúÜü]
 Digito = [0-9]
 Identificador = {Letra}({Letra}|{Digito})*
 Identifier = [:jletter:] [:jletterdigit:]*
-DirSimple = ({Letra}|{Digito})({Letra}|{Digito})
-DirExt = {DirSimple}{DirSimple}
-/* Número */
-Numero = 0 | [1-9][0-9]*
+DirSimple = ({Letra}|{Digito})({Letra}|{Digito}) | ({Letra}|{Digito})  
+DirExt = {DirSimple}{DirSimple} | {DirSimple}({Letra}|{Digito}) 
 
 %%
-
 /* Direccion */
-\${DirSimple} { return token(yytext(), "DirSimple", yyline, yycolumn); }
+\${DirSimple}|{DirSimple} { return token(yytext(), "DirSimple", yyline, yycolumn); }
 \${DirExt} { return token(yytext(), "DirEXT", yyline, yycolumn); }
 /* Comentarios o espacios en blanco */
 {Comentario}|{EspacioEnBlanco} { /*Ignorar*/ }
 
-
-/* Operadores de agrupacion */
-"(" {return token(yytext(),"PARENTESIS_A",yyline,yycolumn);}
-")" {return token(yytext(),"PARENTESIS_C",yyline,yycolumn);}
-"{" {return token(yytext(),"LLAVE_A",yyline,yycolumn);}
-"}" {return token(yytext(),"LLAVE_C",yyline,yycolumn);}
-
 /* Signos de operacion */
 "#" {return token(yytext(),"GATO",yyline,yycolumn);}
+
 "$" {return token(yytext(),"PESOS",yyline,yycolumn);}
 "," {return token(yytext(),"COMA",yyline,yycolumn);}
 {tab} {return token(yytext(),"TAB",yyline,yycolumn);}
+
 /* Directivas */
-("ORG" | "org") {return token(yytext(),"INICIO",yyline,yycolumn);}
+("INICIO"|"inicio") {return token(yytext(),"INICIO",yyline,yycolumn);}
+("ORG" | "org") {return token(yytext(),"Directiva_ORG",yyline,yycolumn);}
 
 "EQU" | "equ" {return token(yytext(),"Directiva_EQU",yyline,yycolumn);}
 

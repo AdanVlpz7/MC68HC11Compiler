@@ -59,11 +59,17 @@ public class Compilador extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
-        Functions.setLineNumberOnJTextComponent(jtpCode); //para que se numeren las lineas del codigo
-        timerKeyReleased = new Timer(300,((e) -> {
+        Functions.setLineNumberOnJTextComponent(jtpCode); //Pone los numeros de linea
+        timerKeyReleased = new Timer((int) (1000 * 0.3), (ActionEvent e) -> {
             timerKeyReleased.stop();
-            colorAnalysis(); // se colorean el texto cada 300 milisegundos
-        }));
+            
+            int posicion = jtpCode.getCaretPosition();
+            jtpCode.setText(jtpCode.getText().replaceAll("[\r]+", ""));
+            jtpCode.setCaretPosition(posicion);
+            
+            colorAnalysis();
+            
+        });
         Functions.insertAsteriskInName(this, jtpCode, ()->{
             timerKeyReleased.restart(); //para poner un asteristico cuando se edite
         });
@@ -182,6 +188,7 @@ public class Compilador extends javax.swing.JFrame {
         Grammar gramatica = new Grammar(tokens,errores);
         /*ELIMINACION DE ERRORES*/
         gramatica.delete(new String[]{"Error","Error1","Error2","Error3","Error4","Error5","Error6","Error7","Error8","Error9"},1);
+        
         gramatica.group("Variable","IDENTIFICADOR TAB Directiva_EQU TAB DirEXT");
         gramatica.group("Variable","Directiva_EQU TAB DirEXT",true,2,
                 "error sintatico: falta el identificador en la variable [#,%]");
@@ -192,6 +199,8 @@ public class Compilador extends javax.swing.JFrame {
         gramatica.delete("Directiva_EQU",4,
                 "Error sintatico{}: La directiva EQU no fue establecida en la declaracion");
         gramatica.group("DirEXT","IDENTIFICADOR",true);
+        
+        gramatica.group("Funcion","IDENTIFICADOR TAB",true);
         
         gramatica.group("INSTRUCCIONES_INHERENTES","TAB (Inst_TEST|Inst_NOP|Inst_IDIV|Inst_FDIV|Inst_LSRD|Inst_ASLD|Inst_TAP|Inst_TPA|Inst_INX|Inst_DEX|Inst_CLV|Inst_SEV|Inst_CLC|Inst_SEC"+
             "Inst_CLI|Inst_SEI|Inst_SBA|Inst_CBA|Inst_TAB|Inst_TBA|Inst_INY|Inst_DEY|Inst_TSY|Inst_TYS|Inst_PULY|Inst_ABY|Inst_PSHY|Inst_XGDY|Inst_DAA|Inst_ABA|Inst_BRA|Inst_BRN|Inst_BHI"+
@@ -213,7 +222,7 @@ public class Compilador extends javax.swing.JFrame {
         
         /* INSTRUCCIONES INMEDIATAS */
         gramatica.group("INSTRUCCIONES_INMEDIATAS","TAB (Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
-            "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) TAB GATO DirExt|DirSimple",true);
+            "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) TAB GATO DirEXT|DirSimple",true);
         
         gramatica.group("INSTRUCCIONES_INMEDIATAS_ERR6","TAB (Inst_SUBA|Inst_SBCA|Inst_SUBD|Inst_ADDA|Inst_ADDD|Inst_SUBB|Inst_CPY|Inst_CPD|Inst_CMPB|Inst_BITB|Inst_CMPA|"+
             "Inst_BITA|Inst_ANDA|Inst_EORA|Inst_ANDB|Inst_EORB|Inst_ORAB|Inst_ORAA|Inst_LDX|Inst_LDY|Inst_LDD|Inst_LDAA|Inst_LDAB) TAB GATO",true,6,
